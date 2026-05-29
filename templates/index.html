@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>YOLOv8 Detection</title>
+</head>
+<body>
+    <h1>Analiza zdjęcia przez YOLOv8</h1>
+
+    <form action="/detect" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit">Analizuj zdjęcie</button>
+    </form>
+
+    {% if image %}
+        <h2>Wynik analizy:</h2>
+        <img src="{{ image }}" style="max-width: 900px; width: 100%;">
+    {% endif %}
+</body>
+</html>

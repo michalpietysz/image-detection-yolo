@@ -1,0 +1,20 @@
+#local python eviroment
+venv/
+
+#python auto generated files
+__pycache__/
+*.pyc
+
+#uploaded pictures
+uploads/
+
+#generated pictures
+static/*.jpg
+static/*.jpeg
+static/*.png
+
+#yolo model
+*.pt
+
+#config
+.env
