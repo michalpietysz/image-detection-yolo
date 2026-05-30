@@ -6,16 +6,16 @@ from fastapi.staticfiles import StaticFiles
 from ultralytics import YOLO
 from PIL import Image
 
-import io
-import os
+import io   
+import os  
 import uuid
 
-app = FastAPI()
 
-templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app = FastAPI()#create an object of the FastAPI class.
+templates = Jinja2Templates(directory="templates")# Create FastAPI app instance
+model = YOLO("yolov8n.pt")# Load the YOLOv8 model. You can choose different versions like yolov8s.pt, yolov8m.pt, etc.
 
-model = YOLO("yolov8n.pt")
+app.mount("/static", StaticFiles(directory="static"), name="static")# Set up Jinja2. For rendering html in python and setting the directory for html files. In this case, we will create a folder called "templates" and put our html files in there.
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -30,7 +30,7 @@ async def home(request: Request):
 @app.post("/detect", response_class=HTMLResponse)
 async def detect(request: Request, file: UploadFile = File(...)):
     contents = await file.read()
-    image = Image.open(io.BytesIO(contents)).convert("RGB")
+    image = Image.open(io.BytesIO(contents)).convert("RGB")#
 
     results = model(image)
 
@@ -41,7 +41,9 @@ async def detect(request: Request, file: UploadFile = File(...)):
 
     Image.fromarray(result_image).save(output_path)
 
-    return templates.TemplateResponse(request,"index.html",
+    return templates.TemplateResponse(
+        request,
+        "index.html",
         {
             "image": f"/static/{filename}"
         }
@@ -50,7 +52,4 @@ async def detect(request: Request, file: UploadFile = File(...)):
 
 @app.get("/health")
 async def health():
-    return 
-    {
-        "status": "healthy"
-    }
+    return {"status": "healthy"}
