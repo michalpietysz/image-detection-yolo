@@ -41,9 +41,7 @@ async def detect(request: Request, file: UploadFile = File(...)):
 
     Image.fromarray(result_image).save(output_path)
 
-    return templates.TemplateResponse(
-        request,
-        "index.html",
+    return templates.TemplateResponse(request,"index.html",
         {
             "image": f"/static/{filename}"
         }
@@ -52,4 +50,7 @@ async def detect(request: Request, file: UploadFile = File(...)):
 
 @app.get("/health")
 async def health():
-    return {"status": "healthy"}
+    return 
+    {
+        "status": "healthy"
+    }
